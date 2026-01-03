@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherit the wizard view -->
+        <record id="hr_expense_post_wizard_view_inherit" model="ir.ui.view">
+            <field name="name">hr.expense.post.wizard.inherit</field>
+            <field name="model">hr.expense.post.wizard</field>
+            <field name="inherit_id" ref="hr_expense.hr_expense_post_wizard_view"/>
+            <field name="arch" type="xml">
+                <!-- Target accounting_date field -->
+                <xpath expr="//field[@name='accounting_date']" position="after">
+                    <field name="apply_currency_exchange" string="Apply Currency Exchange Rate"/>
+                    <field name="total_amount_currency" string="Total"/>
+                    <field name="currency_id"/>
+                    <field name="manual_currency_rate" string="Exchange Rate"/>
+<!--                    <field name="apply_currency_exchange" string="Apply Currency Exchange Rate"/>-->
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

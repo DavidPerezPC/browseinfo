@@ -1,0 +1,5 @@
+15/12/2025 | 19.0.0.1
+=>Fixed the issue of the traceback raised while creating SO with manual currency when Sale Subscription is installed.
+
+18/12/2025 | 19.0.0.2
+=>Fixed the issue of the module not able to create or update the credit note and also not able to generate the payment journal entry.
