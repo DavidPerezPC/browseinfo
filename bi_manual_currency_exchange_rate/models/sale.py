@@ -176,7 +176,10 @@ class PricelistItem(models.Model):
             if manual_currency_rate_active:
                 is_inverted_rate = self.env['ir.config_parameter'].sudo().get_param("bi_manual_currency_exchange_rate.inverted_rate")
                 if is_inverted_rate:
-                    price = price / manual_currency_rate
+                    try:
+                        price = price / manual_currency_rate
+                    except ZeroDivisionError:
+                        price = price
                 else:
                     price = price * manual_currency_rate
             else:

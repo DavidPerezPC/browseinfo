@@ -81,11 +81,11 @@ class PurchaseOrderLine(models.Model):
 				line.discount = 0
 				unavailable_seller = line.product_id.seller_ids.filtered(
 					lambda s: s.partner_id == line.order_id.partner_id)
-				if not unavailable_seller and line.price_unit and line.product_uom == line._origin.product_uom:
+				if not unavailable_seller and line.price_unit and line.product_uom_id == line._origin.product_uom_id:
 					# Avoid to modify the price unit if there is no price list for this partner and
 					# the line has already one to avoid to override unit price set manually.
 					continue
-				po_line_uom = line.product_uom_id or line.product_id.uom_po_id
+				po_line_uom = line.product_uom_id or line.product_id.uom_id
 				price_unit = line.env['account.tax']._fix_tax_included_price_company(
 					line.product_id.uom_id._compute_price(line.product_id.standard_price, po_line_uom),
 					line.product_id.supplier_taxes_id,
@@ -112,11 +112,11 @@ class PurchaseOrderLine(models.Model):
 			elif seller:
 				price_unit = line.env['account.tax']._fix_tax_included_price_company(seller.price,
 																					line.product_id.supplier_taxes_id,
-																					line.taxes_id,
+																					line.tax_ids,
 																					line.company_id) if seller else 0.0
 				price_unit = seller.currency_id._convert(price_unit, line.currency_id, line.company_id, line.date_order or fields.Date.context_today(line), False)
 				price_unit = float_round(price_unit, precision_digits=max(line.currency_id.decimal_places, self.env['decimal.precision'].precision_get('Product Price')))
-				line.price_unit = seller.product_uom._compute_price(price_unit, line.product_uom)
+				line.price_unit = seller.product_uom_id._compute_price(price_unit, line.product_uom_id)
 				line.discount = seller.discount or 0.0
 
 			# record product names to avoid resetting custom descriptions
@@ -136,7 +136,10 @@ class PurchaseOrderLine(models.Model):
 		if self.order_id.purchase_manual_currency_rate_active:
 			is_inverted_rate = self.env['ir.config_parameter'].sudo().get_param("bi_manual_currency_exchange_rate.inverted_rate")
 			if is_inverted_rate:
-				rate = 1.0 / self.order_id.purchase_manual_currency_rate
+				try:
+					rate = 1.0 / self.order_id.purchase_manual_currency_rate
+				except ZeroDivisionError:
+					rate = 0.0
 			else:
 				rate = self.order_id.purchase_manual_currency_rate
 		else:

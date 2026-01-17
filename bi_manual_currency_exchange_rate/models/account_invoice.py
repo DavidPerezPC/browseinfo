@@ -290,7 +290,6 @@ class account_invoice_line(models.Model):
                 product_price_unit = price * self.move_id.manual_currency_rate
         else:
             product_price_unit = price
-        print("@@@@@@@@@@@@@@@@@@@@@@@@@@",product_price_unit)
         return product_price_unit
 
     @api.depends('product_id', 'product_uom_id','name','move_id.manual_currency_rate')
@@ -705,6 +704,7 @@ class account_invoice_line(models.Model):
                         credit_aml._get_reconciliation_aml_field_value('date', shadowed_aml_values),
                     ),
                 )
+                res['exchange_values']['to_post'] = debit_aml.parent_state == 'posted' and credit_aml.parent_state == 'posted'
                 
         # ==== Create partials ====
         remaining_debit_amount -= partial_amount
@@ -1143,7 +1143,10 @@ class ProductProduct(models.Model):
             if manual_currency_rate_active:
                 is_inverted_rate = self.env['ir.config_parameter'].sudo().get_param("bi_manual_currency_exchange_rate.inverted_rate")
                 if is_inverted_rate:
-                    product_price_unit = product_price_unit / manual_currency_rate
+                    try:
+                        product_price_unit = product_price_unit / manual_currency_rate
+                    except ZeroDivisionError:
+                        product_price_unit = product_price_unit
                 else:
                     product_price_unit = product_price_unit * manual_currency_rate
             else:
