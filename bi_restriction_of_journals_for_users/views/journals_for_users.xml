@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="res_users_view_form_inherit" model="ir.ui.view">
+            <field name="name">res.users.form</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//group/field[@name='partner_id']" position="after">
+                    <field name="journals_ids" widget="many2many_tags" 
+                        groups="bi_restriction_of_journals_for_users.group_access_restrict_journal,bi_restriction_of_journals_for_users.group_access_restrict_journal_features"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="account_journal_view_form_inherit" model="ir.ui.view">
+            <field name="name">account.journal.form</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='type']" position="after">
+                    <field name="users_ids" widget="many2many_tags"  
+                    groups="bi_restriction_of_journals_for_users.group_access_restrict_journal,bi_restriction_of_journals_for_users.group_access_restrict_journal_features"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
