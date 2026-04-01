@@ -12,7 +12,7 @@ class PurchaseOrder(models.Model):
 	
 	purchase_manual_currency_rate_active = fields.Boolean('Apply Manual Exchange')
 	purchase_manual_currency_rate = fields.Float('Rate', digits=(12, 6))
- 
+
 	@api.constrains("purchase_manual_currency_rate")
 	def _check_sale_manual_currency_rate(self):
 		for record in self:

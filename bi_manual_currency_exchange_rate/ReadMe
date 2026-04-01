@@ -13,3 +13,5 @@
 :- Fixed an issue where an error occurred when a product was added to an order line and the UOM was forcibly removed.
 :- Fixed an issue where an error occurred when the manual exchange rate was set to 0 and a product was added.
 
+=> 19.0.0.5:- Date 26 Feb 2026
+:- Fixed an issue where an error occurred while validating a return stock operation after changing the product UoM and costing method.
