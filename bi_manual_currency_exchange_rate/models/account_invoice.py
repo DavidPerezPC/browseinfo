@@ -1003,7 +1003,8 @@ class account_invoice(models.Model):
             'cost_lines': [(0, 0, {
                 'product_id': l.product_id.id,
                 'name': l.product_id.name,
-                'account_id': l.product_id.product_tmpl_id.get_product_accounts()['stock_input'].id,
+                #'account_id': l.product_id.product_tmpl_id.get_product_accounts()['stock_input'].id,
+                'account_id': l.product_id.product_tmpl_id.get_product_accounts()['stock_valuation'].id,
                 'price_unit': l.price_subtotal/landed_costs_lines.move_id.manual_currency_rate,
                 'split_method': l.product_id.split_method_landed_cost or 'equal',
             }) for l in landed_costs_lines],
@@ -1014,7 +1015,8 @@ class account_invoice(models.Model):
             'cost_lines': [(0, 0, {
                 'product_id': l.product_id.id,
                 'name': l.product_id.name,
-                'account_id': l.product_id.product_tmpl_id.get_product_accounts()['stock_input'].id,
+                #'account_id': l.product_id.product_tmpl_id.get_product_accounts()['stock_input'].id,
+                'account_id': l.product_id.product_tmpl_id.get_product_accounts()['stock_valuation'].id,
                 'price_unit': l.currency_id._convert(l.price_subtotal, l.company_currency_id, l.company_id, l.move_id.date),
                 'split_method': l.product_id.split_method_landed_cost or 'equal',
             }) for l in landed_costs_lines],
