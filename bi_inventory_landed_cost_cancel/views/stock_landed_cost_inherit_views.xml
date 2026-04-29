@@ -1,24 +1,26 @@
 <?xml version="1.0"?>
 <odoo>
-    <record id="stock_landed_cost_inherit_view_form" model="ir.ui.view" >
-        <field name="name">stock.landed.cost.form</field>
+    <record id="stock_landed_cost_inherit_view_form" model="ir.ui.view">
+        <field name="name">stock.landed.cost.form.inherit.cancel</field>
         <field name="model">stock.landed.cost</field>
         <field name="inherit_id" ref="stock_landed_costs.view_stock_landed_cost_form"/>
+        <field name="active" eval="True"/>
         <field name="arch" type="xml">
             <xpath expr="//sheet" position="inside">
                 <div class="oe_button_box" name="button_box">
                     <button string="Move" type="object"
                         name="action_view_moves"
-                        class="oe_stat_button" icon="fa-edit" groups="stock.group_stock_manager"
-                            invisible="state not in ('done') and not account_move_id">
-    <!--                    attrs="{'invisible': [('state', 'not in', ['done']), ('account_move_id', '=', False)]}">-->
-                    </button>
+                        class="oe_stat_button" icon="fa-edit"
+                        invisible="state != 'done' or not account_move_id"/>
                 </div>
             </xpath>
-            <xpath expr="//header" position="inside">
-                <button name="button_done_cancel" string="Cancel" invisible="state not in ('done')" type="object"/>
-                <button name="button_set_draft" class="oe_highlight" string="Set to Draft" invisible="state not in ('cancel')" type="object"/>
-            </xpath>
+            <header>
+                <button name="button_done_cancel" string="Cancel" type="object"
+                    invisible="state != 'done'"/>
+                <button name="button_set_draft" class="oe_highlight" string="Set to Draft"
+                    type="object"
+                    invisible="state != 'cancel'"/>
+            </header>
         </field>
     </record>
 </odoo>

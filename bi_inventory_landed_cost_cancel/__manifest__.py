@@ -3,7 +3,7 @@
 
 {
     "name" : "Stock Landed Cost Cancel and Reverse",
-    "version" : "19.0.0.0",
+    "version" : "19.0.0.1",
     "category" : "Warehouse",
     'summary': "Reverse and Cancel Landed Cost cancel landed cost reset landed cost cancel stock landed cost cancel inventory landed cost reverse landed cost reset landed cost reverse stock landed cost reset stock landed cost reset to draft landed cost revert landed cost",
     "description": """
