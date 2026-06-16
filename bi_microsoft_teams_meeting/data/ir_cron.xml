@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="cron_teams_meetings_sync" model="ir.cron">
+            <field name="name">Teams Meetings Sync</field>
+            <field name="model_id" ref="model_res_users"/>
+            <field name="interval_number">2</field>
+            <field name="interval_type">minutes</field>
+            <field name="priority">5</field>
+            <field name="state">code</field>
+            <field name="code">model.sync_teams_meetings()</field>
+        </record>
+    </data>
+</odoo>

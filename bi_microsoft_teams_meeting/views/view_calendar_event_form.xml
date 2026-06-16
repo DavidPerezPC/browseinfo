@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_calendar_event_form_inherit_teams" model="ir.ui.view">
+        <field name="name">calendar.event.form.inherit.teams</field>
+        <field name="model">calendar.event</field>
+        <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='videocall_location_div']" position="after">
+                <field name="ms_event_id" readonly="1"/>
+            </xpath>
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="create_teams_calendar_event" type="object" icon="fa-calendar" string="Create Teams Meeting" class="btn-success" invisible="ms_event_id"/>
+                    <button name="update_teams_meeting" type="object" icon="fa-edit" string="Update Teams Meeting" class="btn-info"/>
+                    <button name="delete_teams_meeting" type="object" icon="fa-trash" string="Delete Teams Meeting" class="btn-danger"/>
+                </header>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

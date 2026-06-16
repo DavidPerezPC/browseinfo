@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_users_form_inherit" model="ir.ui.view">
+        <field name="name">res.users.form.inherit</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Microsoft Teams" name="mt_connector">
+                    <form string="Microsoft Teams">
+                        <header>
+                            <button name="action_disconnect_microsoft_teams" type="object" string="Disconnect Teams" icon="fa-plug"
+                                    class="btn-danger" invisible="connection_state != 'connected'"/>
+                            <button name="microsoft_bearer_token" type="object" string="Connect With Teams" icon="fa-plug"
+                                    class="btn-primary" invisible="connection_state == 'connected'"/>
+                            <button name="refresh_access_token" type="object" string="Refresh Token" icon="fa-refresh"
+                                    class="btn-info" invisible="connection_state != 'connected'"/>
+                            <button name="get_teams_meetings" type="object" string="Get Teams Meetings" icon="fa-calendar"
+                                    class="btn-teams" invisible="connection_state != 'connected'"
+                                    style="background-color: #6264a7; border: 2px solid #6264a7; color: white; font-size: 16px; padding: 10px 20px;
+                                           border-radius: 5px; text-align: center; font-weight: bold; display: inline-flex; align-items: center;
+                                           justify-content: center; text-decoration: none; cursor: pointer; transition: all 0.3s ease;">
+                                Get Teams Meetings
+                                <style>
+                                    .btn-teams {
+                                        background-color: #6264a7;
+                                        border-color: #6264a7;
+                                        color: white;
+                                    }
+
+                                    .btn-teams:hover {
+                                        background-color: white;
+                                        border-color: #6264a7;
+                                        color: #6264a7;
+                                    }
+
+                                    .btn-teams:active {
+                                        background-color: #3e3f7b;
+                                        border-color: #3e3f7b;
+                                    }
+
+                                    .btn-teams .fa-calendar {
+                                        margin-right: 8px;
+                                    }
+                                </style>
+                            </button>
+                            <field name="connection_state" widget="statusbar" statusbar_visible="not_connected,connecting,connected" invisible="1"/>
+                        </header>
+                        <sheet>
+                            <widget name="web_ribbon" title="Connected" bg_color="bg-success" invisible="connection_state != 'connected'"/>
+                            <widget name="web_ribbon" title="Not Connected" bg_color="bg-warning" invisible="connection_state != 'not_connected'"/>
+                            <div class="alert alert-info" role="alert" invisible="connection_state == 'connected'">
+                                <i class="fa fa-info-circle me-2"/>Enter your Microsoft Teams API details below, then click 'Connect With Teams' to link your account.
+                            </div>
+                            <div class="alert alert-success" role="alert" invisible="connection_state != 'connected'">
+                                <i class="fa fa-check-circle me-2"/>Your Microsoft Teams account is connected successfully!
+                            </div>
+
+                            <group>
+                                <group string="Microsoft Azure Credentials" name="credentials">
+                                    <field name="client_id" placeholder="Application (client) ID" required="1" password="True"/>
+                                    <field name="client_secret" placeholder="Client Secret" required="1" password="True"/>
+                                    <field name="tenant_id" placeholder="Directory (tenant) ID" required="1" password="True"/>
+                                </group>
+                                <group string="Callback Configuration" name="callback">
+                                    <field name="redirect_url" placeholder="e.g. https://yourcompany.com/callback" required="1" widget="url"/>
+                                    <field name="token_expiry" readonly="1"/>
+                                    <field name="access_token" password="True" readonly="1" invisible="1"/>
+                                </group>
+                            </group>
+                        </sheet>
+                    </form>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
